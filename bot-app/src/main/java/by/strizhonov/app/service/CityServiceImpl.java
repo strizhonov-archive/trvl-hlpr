@@ -25,9 +25,9 @@ public class CityServiceImpl implements CityService {
     public SendMessage getCityDescriptionMessage(final Update update) {
         String massageText = getResponseText(update);
 
-        long chat_id = update.getMessage().getChatId();
+        long chatId = update.getMessage().getChatId();
         return new SendMessage()
-                .setChatId(chat_id)
+                .setChatId(chatId)
                 .setText(massageText);
     }
 

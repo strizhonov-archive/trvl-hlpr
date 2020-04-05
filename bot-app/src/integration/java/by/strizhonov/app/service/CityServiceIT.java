@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ComponentScan("by.strizhonov.app")
 @DataJpaTest
-@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:inflation.sql")
+@Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:db_inflation.sql")
 public class CityServiceIT {
 
     private static final long ANY_VALID_ID = 35;
@@ -43,7 +43,9 @@ public class CityServiceIT {
 
 
     @Test
-    public void shouldGetNonNullMessageWhenNonExistingCityNamePassed() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldGetNonNullMessageWhenNonExistingCityNamePassed()
+            throws NoSuchFieldException, IllegalAccessException {
+
         String input = "NOT_EXIST";
         Update testCaseUpdate = getUpdate(input);
         SendMessage resultMessage = serviceToTest.getCityDescriptionMessage(testCaseUpdate);
