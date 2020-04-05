@@ -1,6 +1,6 @@
 package by.strizhonov.app.service;
 
-import by.strizhonov.app.dao.CityDao;
+import by.strizhonov.app.repository.CityRepository;
 import by.strizhonov.app.model.City;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ public class CityServiceImpl implements CityService {
 
 
     @Autowired
-    private CityDao dao;
+    private CityRepository repository;
 
 
     @Override
@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
 
     private String getResponseText(final Update update) {
         String cityToSearch = update.getMessage().getText();
-        City foundCity = dao.searchByName(cityToSearch);
+        City foundCity = repository.searchByName(cityToSearch);
 
         return foundCity == null
                 ? String.format(cityNotFoundMessage, cityToSearch)
