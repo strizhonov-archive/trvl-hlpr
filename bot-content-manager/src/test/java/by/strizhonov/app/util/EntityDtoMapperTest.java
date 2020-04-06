@@ -5,13 +5,20 @@ import by.strizhonov.app.model.City;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(JUnit4.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest
 public class EntityDtoMapperTest {
+
+
+    @Autowired
+    private EntityDtoMapper entityDtoMapper;
 
 
     @Test
@@ -20,7 +27,7 @@ public class EntityDtoMapperTest {
         String name = "TEST_NAME_1";
         String description = "TEST_DESCRIPTION_1";
         City cityToConvert = new City(id, name, description);
-        CityDto convertedCity = new EntityDtoMapper().fromDto(cityToConvert);
+        CityDto convertedCity = entityDtoMapper.fromEntity(cityToConvert);
 
         Assert.assertEquals(name, convertedCity.getName());
         Assert.assertEquals(id, convertedCity.getId());
@@ -30,7 +37,7 @@ public class EntityDtoMapperTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenEntityIsNull() {
-        new EntityDtoMapper().fromDto((City) null);
+        entityDtoMapper.fromEntity(null);
     }
 
 
@@ -40,7 +47,7 @@ public class EntityDtoMapperTest {
         String name = "TEST_NAME_2";
         String description = "TEST_DESCRIPTION_2";
         CityDto dtoToTest = new CityDto(id, name, description);
-        City converted = new EntityDtoMapper().fromDto(dtoToTest);
+        City converted = entityDtoMapper.fromDto(dtoToTest);
 
         Assert.assertEquals(name, converted.getName());
         Assert.assertEquals(id, converted.getId());
@@ -50,14 +57,14 @@ public class EntityDtoMapperTest {
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenDtoIsNull() {
-        new EntityDtoMapper().fromDto((CityDto) null);
+        entityDtoMapper.fromDto(null);
     }
 
 
     @Test
     public void shouldCreateListOfSameDtos() {
         List<City> manuallyCreatedCities = createCities();
-        List<CityDto> convertedCities = new EntityDtoMapper().allFrom(manuallyCreatedCities);
+        List<CityDto> convertedCities = entityDtoMapper.fromEntities(manuallyCreatedCities);
 
         for (City current : manuallyCreatedCities) {
             boolean containsSameCity = convertedCities
@@ -71,7 +78,7 @@ public class EntityDtoMapperTest {
     @SuppressWarnings("all")
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenEntitiesAreNull() {
-        new EntityDtoMapper().allFrom(null);
+        entityDtoMapper.fromEntities(null);
     }
 
 

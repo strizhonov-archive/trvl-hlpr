@@ -26,7 +26,7 @@ public class EntityDtoMapper {
     }
 
 
-    public List<CityDto> allFrom(final List<City> entitiesFrom) {
+    public List<CityDto> fromEntities(final List<City> entitiesFrom) {
         List<CityDto> result = new ArrayList<>();
         for (City current : entitiesFrom) {
             result.add(fromEntity(current));

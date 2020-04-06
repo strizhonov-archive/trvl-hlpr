@@ -76,7 +76,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<CityDto> findAll() {
         List<City> allCities = repository.findAll();
-        return mapper.allFrom(allCities);
+        return mapper.fromEntities(allCities);
     }
 
 
