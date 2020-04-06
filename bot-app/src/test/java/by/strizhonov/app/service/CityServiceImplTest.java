@@ -24,21 +24,27 @@ public class CityServiceImplTest {
 
 
     @InjectMocks
-    private CityServiceImpl service;
+    private CityServiceImpl serviceToTest;
 
 
     @Test
-    public void getNonNullMessageToTheSameChat() throws NoSuchFieldException, IllegalAccessException {
+    public void shouldGetNonNullMessageToTheSameChat() throws NoSuchFieldException, IllegalAccessException {
         String chatId = "133";
         String existingCityName = "existing_city";
 
         Mockito.when(repository.searchByName(existingCityName)).thenReturn(validCity(existingCityName));
 
         Update update = createTestUpdateItem(Long.parseLong(chatId), existingCityName);
-        SendMessage retrievedMessage = service.getCityDescriptionMessage(update);
+        SendMessage retrievedMessage = serviceToTest.getCityDescriptionMessage(update);
 
         Assert.assertEquals(chatId, retrievedMessage.getChatId());
         Assert.assertNotNull(retrievedMessage.getText());
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowRuntimeException() {
+        serviceToTest.getCityDescriptionMessage(null);
     }
 
 

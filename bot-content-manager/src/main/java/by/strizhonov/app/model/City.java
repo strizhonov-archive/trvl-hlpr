@@ -21,11 +21,11 @@ public class City implements Serializable {
 
     @Column(unique = true)
     @NotNull
-    @Size(min = 1, max = 20, message = "City name should contain from 1 to 20 characters.")
+    @Size(min = 1, max = 20, message = "City name should contain fromDto 1 to 20 characters.")
     private String name;
 
     @NotNull
-    @Size(min = 1, max = 1000, message = "City description should contain from 1 to 1000 characters.")
+    @Size(min = 1, max = 1000, message = "City description should contain fromDto 1 to 1000 characters.")
     private String description;
 
     public City() {

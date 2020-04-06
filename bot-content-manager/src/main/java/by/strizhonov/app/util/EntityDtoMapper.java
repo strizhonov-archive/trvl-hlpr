@@ -11,24 +11,32 @@ import java.util.List;
 @Component
 public class EntityDtoMapper {
 
-    public City from(final CityDto dtoFrom) {
+
+    public City fromDto(final CityDto dtoFrom) {
         City entityTo = new City();
         BeanUtils.copyProperties(dtoFrom, entityTo);
         return entityTo;
     }
 
-    public CityDto from(final City entityFrom) {
+
+    public CityDto fromEntity(final City entityFrom) {
         CityDto dtoTo = new CityDto();
         BeanUtils.copyProperties(entityFrom, dtoTo);
         return dtoTo;
     }
 
+
     public List<CityDto> allFrom(final List<City> entitiesFrom) {
         List<CityDto> result = new ArrayList<>();
         for (City current : entitiesFrom) {
-            result.add(from(current));
+            result.add(fromEntity(current));
         }
         return result;
+    }
+
+
+    private EntityDtoMapper() {
+        // Util class private constructor
     }
 
 }

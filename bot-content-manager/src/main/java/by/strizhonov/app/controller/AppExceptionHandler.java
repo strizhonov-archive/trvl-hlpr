@@ -3,11 +3,13 @@ package by.strizhonov.app.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -38,6 +40,21 @@ public class AppExceptionHandler {
     }
 
 
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(EntityExistsException.class)
+    @ResponseBody
+    public ErrorInfo handleEntityExistsException(final EntityExistsException e, final HttpServletRequest request) {
+        LOGGER.error("Handling exception on the top-level", e);
+        return new ErrorInfo.Builder()
+                .timestamp(LocalDateTime.now())
+                .status(403)
+                .error(e.getClass().getSimpleName())
+                .message(e.getLocalizedMessage())
+                .path(request.getRequestURL().toString())
+                .build();
+    }
+
+
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
@@ -50,6 +67,21 @@ public class AppExceptionHandler {
                 .message(e.getConstraintViolations().stream()
                         .map(ConstraintViolation::getMessage)
                         .collect(Collectors.joining(CONSTRAINT_VIOLATIONS_DELIMITER)))
+                .path(request.getRequestURL().toString())
+                .build();
+    }
+
+
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseBody
+    public ErrorInfo handleHttpMessageNotReadableException(final HttpMessageNotReadableException e, final HttpServletRequest request) {
+        LOGGER.error("Handling exception on the top-level", e);
+        return new ErrorInfo.Builder()
+                .timestamp(LocalDateTime.now())
+                .status(400)
+                .error(e.getClass().getSimpleName())
+                .message(e.getLocalizedMessage())
                 .path(request.getRequestURL().toString())
                 .build();
     }
@@ -68,5 +100,6 @@ public class AppExceptionHandler {
                 .path(request.getRequestURL().toString())
                 .build();
     }
+
 
 }

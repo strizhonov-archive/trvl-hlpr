@@ -18,7 +18,8 @@ public class ErrorInfo implements Serializable {
         // Empty bean constructor
     }
 
-    public ErrorInfo(final LocalDateTime timestamp, final int status, final String error, final String message, final String path) {
+    public ErrorInfo(final LocalDateTime timestamp, final int status,
+                     final String error, final String message, final String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;

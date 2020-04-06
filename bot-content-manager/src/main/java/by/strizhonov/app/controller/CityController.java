@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/city")
@@ -26,7 +27,7 @@ public class CityController {
     @PostMapping
     @ResponseBody
     public CityDto save(@RequestBody final CityDto dtoToSave) {
-        return service.create(dtoToSave);
+        return service.create(Objects.requireNonNull(dtoToSave));
     }
 
 
@@ -40,7 +41,7 @@ public class CityController {
     @PutMapping
     @ResponseBody
     public CityDto update(final CityDto dtoToUpdate) {
-        return service.update(dtoToUpdate);
+        return service.update(Objects.requireNonNull(dtoToUpdate));
     }
 
 

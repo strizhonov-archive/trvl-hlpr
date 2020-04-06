@@ -24,8 +24,15 @@ public class TravelHelperBotTest {
 
     @Test
     public void shouldNotCallServiceWithInvalidUpdate() {
-        Update update = new Update();
-        toTest.onUpdateReceived(update);
+        Update invalidUpdate = new Update();
+        toTest.onUpdateReceived(invalidUpdate);
+        Mockito.verifyNoInteractions(cityService);
+    }
+
+
+    @Test
+    public void shouldNotCallServiceWithNullUpdate() {
+        toTest.onUpdateReceived(null);
         Mockito.verifyNoInteractions(cityService);
     }
 

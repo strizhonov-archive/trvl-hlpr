@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -28,9 +29,14 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto create(final CityDto dtoToSave) {
-        City savedCity = repository.save(mapper.from(dtoToSave));
+        String cityToCreateName = dtoToSave.getName();
+        if (nameIsAvailable(cityToCreateName)) {
+            return performSaving(dtoToSave);
+        } else {
+            LOGGER.error("City with [{}] name does already exist.", cityToCreateName);
+            throw new EntityExistsException(String.format("City with [%s] name does already exist.", cityToCreateName));
+        }
 
-        return mapper.from(savedCity);
     }
 
 
@@ -42,21 +48,16 @@ public class CityServiceImpl implements CityService {
                     return new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToGetId));
                 });
 
-        return mapper.from(foundCity);
+        return mapper.fromEntity(foundCity);
     }
 
 
     @Override
     public CityDto update(final CityDto dtoToUpdate) {
-        long dtoToUpdateId = dtoToUpdate.getId();
+        checkForUpdateValidity(dtoToUpdate);
 
-        if (repository.existsById(dtoToUpdateId)) {
-            City updatedCity = repository.save(mapper.from(dtoToUpdate));
-            return mapper.from(updatedCity);
-        } else {
-            LOGGER.error("City with {} id is not found.", dtoToUpdateId);
-            throw new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToUpdateId));
-        }
+        City updatedCity = repository.save(mapper.fromDto(dtoToUpdate));
+        return mapper.fromEntity(updatedCity);
     }
 
 
@@ -77,5 +78,39 @@ public class CityServiceImpl implements CityService {
         List<City> allCities = repository.findAll();
         return mapper.allFrom(allCities);
     }
+
+
+    private boolean nameIsAvailable(final String cityName) {
+        return repository.findByName(cityName) == null;
+    }
+
+
+    private CityDto performSaving(final CityDto dtoToSave) {
+        ignoreId(dtoToSave);
+        City entityToSave = mapper.fromDto(dtoToSave);
+        City savedCity = repository.save(entityToSave);
+        return mapper.fromEntity(savedCity);
+    }
+
+
+    private void checkForUpdateValidity(final CityDto dtoToUpdate) {
+        long dtoToUpdateId = dtoToUpdate.getId();
+        if (!repository.existsById(dtoToUpdateId)) {
+            LOGGER.error("City with {} id is not found.", dtoToUpdateId);
+            throw new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToUpdateId));
+        }
+
+        String cityName = dtoToUpdate.getName();
+        if (!nameIsAvailable(cityName)) {
+            LOGGER.error("City with [{}] name does already exist.", cityName);
+            throw new EntityExistsException(String.format("City with [%s] name does already exist.", cityName));
+        }
+    }
+
+
+    private void ignoreId(final CityDto dtoToSave) {
+        dtoToSave.setId(0);
+    }
+
 
 }
