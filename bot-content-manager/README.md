@@ -1,7 +1,8 @@
 Bot Content Manager
 ----------------------
 
-Web application to perform data manipulation with **bot-app**.
+Web application to perform data manipulation with 
+[bot-app](https://github.com/strizhonov-secret/trvl-hlpr/tree/master/bot-app).
 Implements CRUD logic.
 
 
