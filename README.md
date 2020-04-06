@@ -2,13 +2,15 @@ TRAVEL HELPER</br>
 -----------------
 The application consists of two parts:<br/>
 - bot-app - telegram chat-bot that outputs city description by the city name input;<br/>
-- bot-content-manager - REST service to manage bot-app (implements simple CRUD-operations).<br/>
+- bot-content-manager - REST service to manage 
+[bot-app](https://github.com/strizhonov-secret/trvl-hlpr/tree/master/bot-app) 
+(implements simple CRUD-operations).<br/>
 
 As this project is only for-representation-purpose, both apps use in-memory database for easier setting.<br/>
+**************************************
 
----------------------------------------
-###Setting up<br/>
-
+Setting up
+------------
 Requirements:<br/>
 1. Maven;<br/>
 2. Java 8+.<br/>
@@ -20,9 +22,8 @@ and here:<br/>
     `bot-app/src/main/resources/application.properties`<br/>
 2. Make sure that 8080 port is free, otherwise change server port here:<br/>
     `bot-content-manager/src/main/resources/application.yml`<br/>
-3. Download and unzip repository;<br/>
-4. Run `mvn spring-boot:run` from bot-content-manager;<br/>
-5. Run `mvn spring-boot:run` from bot-app.<br/>
+3. Run `mvn spring-boot:run` from bot-content-manager;<br/>
+4. Run `mvn spring-boot:run` from bot-app.<br/>
 
 It's important to preserve specified installing order, as both apps use the same in-memory database that 
 is created from the bot-content-manager, and then connected by the bot-app.<br/>
