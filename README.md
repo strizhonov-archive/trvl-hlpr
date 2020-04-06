@@ -2,9 +2,7 @@ TRAVEL HELPER</br>
 -----------------
 The application consists of two parts:<br/>
 - bot-app - telegram chat-bot that outputs city description by the city name input;<br/>
-- bot-content-manager - REST service to manage 
-[bot-app](https://github.com/strizhonov-secret/trvl-hlpr/tree/master/bot-app) 
-(implements simple CRUD-operations).<br/>
+- bot-content-manager - REST service to manage bot-app (implements simple CRUD-operations).<br/>
 
 As this project is only for-representation-purpose, both apps use in-memory database for easier setting.<br/>
 **************************************
