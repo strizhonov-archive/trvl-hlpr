@@ -105,6 +105,7 @@ public class ErrorInfo implements Serializable {
         private String path;
 
         public Builder() {
+            // Empty builder constructor
         }
 
         public Builder timestamp(final LocalDateTime timestamp) {

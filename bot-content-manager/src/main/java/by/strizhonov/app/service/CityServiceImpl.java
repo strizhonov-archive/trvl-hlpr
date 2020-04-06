@@ -19,6 +19,10 @@ import java.util.List;
 public class CityServiceImpl implements CityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityServiceImpl.class);
+    private static final String NOT_FOUND_MESSAGE_FOR_LOGGER = "City with {} id is not found.";
+    private static final String ALREADY_EXISTS_MESSAGE_FOR_LOGGER = "City with [{}] name does already exist.";
+    private static final String NOT_FOUND_MESSAGE_FOR_EXCEPTION = "City with [%d] id is not found.";
+    private static final String ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION = "City with [%s] name does already exist.";
 
     @Autowired
     private EntityDtoMapper mapper;
@@ -33,8 +37,8 @@ public class CityServiceImpl implements CityService {
         if (nameIsAvailable(cityToCreateName)) {
             return performSaving(dtoToSave);
         } else {
-            LOGGER.error("City with [{}] name does already exist.", cityToCreateName);
-            throw new EntityExistsException(String.format("City with [%s] name does already exist.", cityToCreateName));
+            LOGGER.error(ALREADY_EXISTS_MESSAGE_FOR_LOGGER, cityToCreateName);
+            throw new EntityExistsException(String.format(ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION, cityToCreateName));
         }
 
     }
@@ -44,8 +48,8 @@ public class CityServiceImpl implements CityService {
     public CityDto getById(final long dtoToGetId) {
         City foundCity = repository.findById(dtoToGetId)
                 .orElseThrow(() -> {
-                    LOGGER.error("City with {} id is not found.", dtoToGetId);
-                    return new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToGetId));
+                    LOGGER.error(NOT_FOUND_MESSAGE_FOR_LOGGER, dtoToGetId);
+                    return new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE_FOR_EXCEPTION, dtoToGetId));
                 });
 
         return mapper.fromEntity(foundCity);
@@ -65,8 +69,8 @@ public class CityServiceImpl implements CityService {
     public void delete(final long dtoToDeleteId) {
         City foundCity = repository.findById(dtoToDeleteId)
                 .orElseThrow(() -> {
-                    LOGGER.error("City with {} id is not found.", dtoToDeleteId);
-                    return new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToDeleteId));
+                    LOGGER.error(NOT_FOUND_MESSAGE_FOR_LOGGER, dtoToDeleteId);
+                    return new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE_FOR_EXCEPTION, dtoToDeleteId));
                 });
 
         repository.delete(foundCity);
@@ -96,14 +100,14 @@ public class CityServiceImpl implements CityService {
     private void checkForUpdateValidity(final CityDto dtoToUpdate) {
         long dtoToUpdateId = dtoToUpdate.getId();
         if (!repository.existsById(dtoToUpdateId)) {
-            LOGGER.error("City with {} id is not found.", dtoToUpdateId);
-            throw new EntityNotFoundException(String.format("City with [%d] id is not found.", dtoToUpdateId));
+            LOGGER.error(NOT_FOUND_MESSAGE_FOR_LOGGER, dtoToUpdateId);
+            throw new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE_FOR_EXCEPTION, dtoToUpdateId));
         }
 
         String cityName = dtoToUpdate.getName();
         if (!nameIsAvailable(cityName)) {
-            LOGGER.error("City with [{}] name does already exist.", cityName);
-            throw new EntityExistsException(String.format("City with [%s] name does already exist.", cityName));
+            LOGGER.error(ALREADY_EXISTS_MESSAGE_FOR_LOGGER, cityName);
+            throw new EntityExistsException(String.format(ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION, cityName));
         }
     }
 
@@ -111,6 +115,5 @@ public class CityServiceImpl implements CityService {
     private void ignoreId(final CityDto dtoToSave) {
         dtoToSave.setId(0);
     }
-
 
 }

@@ -22,6 +22,7 @@ public class AppExceptionHandler {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AppExceptionHandler.class);
+    private static final String COMMON_MESSAGE = "Handling exception on the top-level";
     private static final String CONSTRAINT_VIOLATIONS_DELIMITER = "; ";
 
 
@@ -29,7 +30,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseBody
     public ErrorInfo handleEntityNotFoundException(final EntityNotFoundException e, final HttpServletRequest request) {
-        LOGGER.error("Handling exception on the top-level", e);
+        LOGGER.error(COMMON_MESSAGE, e);
         return new ErrorInfo.Builder()
                 .timestamp(LocalDateTime.now())
                 .status(404)
@@ -44,7 +45,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(EntityExistsException.class)
     @ResponseBody
     public ErrorInfo handleEntityExistsException(final EntityExistsException e, final HttpServletRequest request) {
-        LOGGER.error("Handling exception on the top-level", e);
+        LOGGER.error(COMMON_MESSAGE, e);
         return new ErrorInfo.Builder()
                 .timestamp(LocalDateTime.now())
                 .status(403)
@@ -59,7 +60,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseBody
     public ErrorInfo handleConstraintViolationException(final ConstraintViolationException e, final HttpServletRequest request) {
-        LOGGER.error("Handling exception on the top-level", e);
+        LOGGER.error(COMMON_MESSAGE, e);
         return new ErrorInfo.Builder()
                 .timestamp(LocalDateTime.now())
                 .status(400)
@@ -76,7 +77,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseBody
     public ErrorInfo handleHttpMessageNotReadableException(final HttpMessageNotReadableException e, final HttpServletRequest request) {
-        LOGGER.error("Handling exception on the top-level", e);
+        LOGGER.error(COMMON_MESSAGE, e);
         return new ErrorInfo.Builder()
                 .timestamp(LocalDateTime.now())
                 .status(400)
@@ -91,7 +92,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ErrorInfo handleException(final Exception e, final HttpServletRequest request) {
-        LOGGER.error("Handling exception on the top-level", e);
+        LOGGER.error(COMMON_MESSAGE, e);
         return new ErrorInfo.Builder()
                 .timestamp(LocalDateTime.now())
                 .status(500)
