@@ -1,4 +1,4 @@
-Bot Content Manager
+Bot Content Manager<br/>  
 ----------------------
 
 Web application to perform data manipulation with 
@@ -6,8 +6,8 @@ Web application to perform data manipulation with
 Implements CRUD logic.
 
 
-##API description<br/>  
-
+API description<br/>  
+------------------------
 `POST` */api/city* - save city in the database. Requires city item passed as json:<br/>
 `{ "name" : "city_name", "description" : "city_description" }`<br/>
 
