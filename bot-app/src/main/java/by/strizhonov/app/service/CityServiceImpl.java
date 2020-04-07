@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
 
     private String getResponseText(final Update update) {
         String cityToSearch = update.getMessage().getText();
-        City foundCity = repository.searchByName(cityToSearch);
+        City foundCity = repository.findByName(cityToSearch);
 
         return foundCity == null
                 ? String.format(cityNotFoundMessage, cityToSearch)

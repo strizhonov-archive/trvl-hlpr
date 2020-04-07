@@ -1,12 +1,7 @@
 package by.strizhonov.app.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,16 +11,10 @@ public class City implements Serializable {
     private static final long serialVersionUID = 4L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
-    @NotNull
-    @Size(min = 1, max = 20, message = "City name should contain from 1 to 20 characters.")
     private String name;
 
-    @NotNull
-    @Size(min = 1, max = 1000, message = "City description should contain from 1 to 1000 characters.")
     private String description;
 
     public City() {

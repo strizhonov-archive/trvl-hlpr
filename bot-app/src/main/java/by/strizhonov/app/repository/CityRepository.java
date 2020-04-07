@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface CityRepository extends JpaRepository<City, Long> {
 
     @Query(value = "SELECT * FROM CITY WHERE NAME = ?1", nativeQuery = true)
-    City searchByName(String cityToSearch);
+    City findByName(String cityNameToSearch);
 
 }

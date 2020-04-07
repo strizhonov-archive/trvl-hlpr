@@ -1,5 +1,5 @@
 INSERT INTO CITY (name, description)
-VALUES ('Moscow', 'Visit Red Square'),
-        ('Minsk', 'Go home'),
-        ('Paris', 'Mona Lisa is waiting for you'),
-        ('Amsterdam', 'Stay here');
+VALUES ('TEST_NAME_1', 'TEST_DESCRIPTION_1'),
+        ('TEST_NAME_2', 'TEST_DESCRIPTION_2'),
+        ('TEST_NAME_3', 'TEST_DESCRIPTION_3'),
+        ('TEST_NAME_4', 'TEST_DESCRIPTION_4');

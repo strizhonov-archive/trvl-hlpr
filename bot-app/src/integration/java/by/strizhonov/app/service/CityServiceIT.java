@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,24 +21,21 @@ import java.lang.reflect.Field;
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = "classpath:db_inflation.sql")
 public class CityServiceIT {
 
-    private static final long ANY_VALID_ID = 35;
-
-
     @Autowired
     private CityService serviceToTest;
 
 
     @Test
     public void shouldGetCityDescriptionByCityName() throws NoSuchFieldException, IllegalAccessException {
-        String input = "Moscow";
+        String input = "TEST_NAME_1";
         Update testCaseUpdate = getUpdate(input);
         SendMessage resultMessage = serviceToTest.getCityDescriptionMessage(testCaseUpdate);
-        Assert.assertEquals("Visit Red Square", resultMessage.getText());
+        Assert.assertEquals("TEST_DESCRIPTION_1", resultMessage.getText());
 
-        input = "Minsk";
+        input = "TEST_NAME_2";
         testCaseUpdate = getUpdate(input);
         resultMessage = serviceToTest.getCityDescriptionMessage(testCaseUpdate);
-        Assert.assertEquals("Go home", resultMessage.getText());
+        Assert.assertEquals("TEST_DESCRIPTION_2", resultMessage.getText());
     }
 
 
@@ -48,8 +43,7 @@ public class CityServiceIT {
     public void shouldGetNonNullMessageWhenNonExistingCityNamePassed()
             throws NoSuchFieldException, IllegalAccessException {
 
-        String input = "NOT_EXIST";
-        Update testCaseUpdate = getUpdate(input);
+        Update testCaseUpdate = getUpdate("NON_EXISTING_NAME");
         SendMessage resultMessage = serviceToTest.getCityDescriptionMessage(testCaseUpdate);
         Assert.assertNotNull(resultMessage.getText());
     }
@@ -83,7 +77,7 @@ public class CityServiceIT {
         Chat chat = new Chat();
         Field idField = chat.getClass().getDeclaredField("id");
         idField.setAccessible(true);
-        idField.set(chat, ANY_VALID_ID);
+        idField.set(chat, (long) 1);
         return chat;
     }
 

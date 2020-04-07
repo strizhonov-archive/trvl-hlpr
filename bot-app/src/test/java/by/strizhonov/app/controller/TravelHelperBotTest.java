@@ -1,7 +1,6 @@
 package by.strizhonov.app.controller;
 
 import by.strizhonov.app.service.CityService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,39 +14,25 @@ public class TravelHelperBotTest {
 
 
     @Mock
-    private CityService cityService;
+    private CityService mockService;
 
 
     @InjectMocks
-    private TravelHelperBot toTest;
+    private TravelHelperBot botToTest;
 
 
     @Test
     public void shouldNotCallServiceWithInvalidUpdate() {
         Update invalidUpdate = new Update();
-        toTest.onUpdateReceived(invalidUpdate);
-        Mockito.verifyNoInteractions(cityService);
+        botToTest.onUpdateReceived(invalidUpdate);
+        Mockito.verifyNoInteractions(mockService);
     }
 
 
     @Test
     public void shouldNotCallServiceWithNullUpdate() {
-        toTest.onUpdateReceived(null);
-        Mockito.verifyNoInteractions(cityService);
-    }
-
-
-    @Test
-    public void shouldGetBotName() {
-        TravelHelperBot toTest = new TravelHelperBot();
-        Assert.assertNotNull(toTest.getBotUsername());
-    }
-
-
-    @Test
-    public void shouldGetBotToken() {
-        TravelHelperBot toTest = new TravelHelperBot();
-        Assert.assertNotNull(toTest.getBotUsername());
+        botToTest.onUpdateReceived(null);
+        Mockito.verifyNoInteractions(mockService);
     }
 
 }

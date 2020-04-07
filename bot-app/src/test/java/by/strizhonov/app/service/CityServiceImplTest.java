@@ -20,7 +20,7 @@ import java.lang.reflect.Field;
 public class CityServiceImplTest {
 
     @Mock
-    private CityRepository repository;
+    private CityRepository mockRepository;
 
 
     @InjectMocks
@@ -29,15 +29,12 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldGetNonNullMessageToTheSameChat() throws NoSuchFieldException, IllegalAccessException {
-        String chatId = "133";
-        String existingCityName = "existing_city";
+        Mockito.when(mockRepository.findByName(Mockito.anyString())).thenReturn(validCity());
 
-        Mockito.when(repository.searchByName(existingCityName)).thenReturn(validCity(existingCityName));
-
-        Update update = createTestUpdateItem(Long.parseLong(chatId), existingCityName);
+        Update update = createTestUpdateItem(1, "TEST_NAME_1");
         SendMessage retrievedMessage = serviceToTest.getCityDescriptionMessage(update);
 
-        Assert.assertEquals(chatId, retrievedMessage.getChatId());
+        Assert.assertEquals("1", retrievedMessage.getChatId());
         Assert.assertNotNull(retrievedMessage.getText());
     }
 
@@ -48,8 +45,8 @@ public class CityServiceImplTest {
     }
 
 
-    private City validCity(final String existingCityName) {
-        return new City(1, existingCityName, "valid_description");
+    private City validCity() {
+        return new City(2, "TEST_NAME_2", "TEST_DESCRIPTION_2");
     }
 
 

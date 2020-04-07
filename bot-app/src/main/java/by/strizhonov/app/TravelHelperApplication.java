@@ -7,8 +7,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 
 
 @SpringBootApplication
-@PropertySource(value = "classpath:messages.properties", encoding = "UTF-8")
-@PropertySource(value = "classpath:credentials.properties", encoding = "UTF-8")
+@PropertySource(value = {"classpath:messages.properties", "classpath:credentials.properties"}, encoding = "UTF-8")
 public class TravelHelperApplication {
 
     public static void main(String[] args) {

@@ -80,7 +80,6 @@ public class CityServiceImplTest {
     @SuppressWarnings("all")
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenCreateNull() {
-        Mockito.when(mockMapper.fromDto((CityDto) null)).thenThrow(new IllegalArgumentException("Source must not be null"));
         serviceToTest.create(null);
     }
 
