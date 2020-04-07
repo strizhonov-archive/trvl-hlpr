@@ -23,12 +23,12 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public SendMessage getCityDescriptionMessage(final Update update) {
-        String massageText = getResponseText(update);
+        String messageText = getResponseText(update);
 
         long chatId = update.getMessage().getChatId();
         return new SendMessage()
                 .setChatId(chatId)
-                .setText(massageText);
+                .setText(messageText);
     }
 
 
