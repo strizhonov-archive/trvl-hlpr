@@ -3,7 +3,7 @@ package by.strizhonov.app.service;
 import by.strizhonov.app.dto.CityDto;
 import by.strizhonov.app.model.City;
 import by.strizhonov.app.repository.CityRepository;
-import by.strizhonov.app.util.EntityDtoMapper;
+import by.strizhonov.app.mapper.ModelMapperImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class CityServiceImpl implements CityService {
     private static final String ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION = "City with [%s] name does already exist.";
 
     @Autowired
-    private EntityDtoMapper mapper;
+    private ModelMapperImpl mapper;
 
     @Autowired
     private CityRepository repository;

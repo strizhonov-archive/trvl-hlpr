@@ -1,4 +1,4 @@
-package by.strizhonov.app.util;
+package by.strizhonov.app.mapper;
 
 import by.strizhonov.app.dto.CityDto;
 import by.strizhonov.app.model.City;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EntityDtoMapper {
+public class ModelMapperImpl implements ModelMapper {
 
 
     public City fromDto(final CityDto dtoFrom) {
@@ -35,7 +35,7 @@ public class EntityDtoMapper {
     }
 
 
-    private EntityDtoMapper() {
+    private ModelMapperImpl() {
         // Util class private constructor
     }
 

@@ -1,4 +1,4 @@
-package by.strizhonov.app.util;
+package by.strizhonov.app.mapper;
 
 import by.strizhonov.app.dto.CityDto;
 import by.strizhonov.app.model.City;
@@ -14,11 +14,11 @@ import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-public class EntityDtoMapperTest {
+public class ModelMapperImplTest {
 
 
     @Autowired
-    private EntityDtoMapper entityDtoMapper;
+    private ModelMapperImpl entityDtoMapper;
 
 
     @Test

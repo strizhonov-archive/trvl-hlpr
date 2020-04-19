@@ -3,7 +3,7 @@ package by.strizhonov.app.service;
 import by.strizhonov.app.dto.CityDto;
 import by.strizhonov.app.model.City;
 import by.strizhonov.app.repository.CityRepository;
-import by.strizhonov.app.util.EntityDtoMapper;
+import by.strizhonov.app.mapper.ModelMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CityServiceImplTest {
 
     @Mock
-    private EntityDtoMapper mockMapper;
+    private ModelMapperImpl mockMapper;
 
     @Mock
     private CityRepository mockRepository;
