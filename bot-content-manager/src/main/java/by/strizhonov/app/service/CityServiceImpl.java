@@ -1,9 +1,10 @@
 package by.strizhonov.app.service;
 
 import by.strizhonov.app.dto.CityDto;
+import by.strizhonov.app.mapper.CityMapper;
 import by.strizhonov.app.model.City;
 import by.strizhonov.app.repository.CityRepository;
-import by.strizhonov.app.mapper.ModelMapperImpl;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CityServiceImpl implements CityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityServiceImpl.class);
@@ -24,11 +26,9 @@ public class CityServiceImpl implements CityService {
     private static final String NOT_FOUND_MESSAGE_FOR_EXCEPTION = "City with [%d] id is not found.";
     private static final String ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION = "City with [%s] name does already exist.";
 
-    @Autowired
-    private ModelMapperImpl mapper;
+    private final CityMapper mapper = CityMapper.INSTANCE;
 
-    @Autowired
-    private CityRepository repository;
+    private final CityRepository repository;
 
 
     @Override
@@ -80,7 +80,7 @@ public class CityServiceImpl implements CityService {
     @Override
     public List<CityDto> findAll() {
         List<City> allCities = repository.findAll();
-        return mapper.fromEntities(allCities);
+        return mapper.allFromEntities(allCities);
     }
 
 

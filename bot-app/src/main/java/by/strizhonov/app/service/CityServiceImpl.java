@@ -18,7 +18,7 @@ public class CityServiceImpl implements CityService {
 
 
     @Autowired
-    private CityRepository repository;
+    private FeignCityManipulationService cityManipulationService;
 
 
     @Override
@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
 
     private String getResponseText(final Update update) {
         String cityToSearch = update.getMessage().getText();
-        City foundCity = repository.findByName(cityToSearch);
+        CityDto foundCity = repository.findByName(cityToSearch);
 
         return foundCity == null
                 ? String.format(cityNotFoundMessage, cityToSearch)

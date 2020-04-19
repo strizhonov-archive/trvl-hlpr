@@ -1,9 +1,9 @@
 package by.strizhonov.app.service;
 
 import by.strizhonov.app.dto.CityDto;
+import by.strizhonov.app.mapper.CityMapper;
 import by.strizhonov.app.model.City;
 import by.strizhonov.app.repository.CityRepository;
-import by.strizhonov.app.mapper.ModelMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,9 +17,6 @@ import java.util.Optional;
 public class CityServiceImplTest {
 
     @Mock
-    private ModelMapperImpl mockMapper;
-
-    @Mock
     private CityRepository mockRepository;
 
     @InjectMocks
@@ -29,8 +26,6 @@ public class CityServiceImplTest {
     @Test
     public void shouldCallRepositorySave() {
         CityDto cityToCreate = new CityDto(1, "TEST_NAME", "TEST_DESCRIPTION");
-        City convertedCity = new City(1, "TEST_NAME", "TEST_DESCRIPTION");
-        Mockito.when(mockMapper.fromDto(cityToCreate)).thenReturn(convertedCity);
 
         serviceToTest.create(cityToCreate);
         Mockito.verify(mockRepository, Mockito.atLeast(1)).save(Mockito.any(City.class));
@@ -50,8 +45,6 @@ public class CityServiceImplTest {
     @Test
     public void shouldCallRepositoryUpdate() {
         CityDto cityToUpdate = new CityDto(3, "TEST_NAME_3", "TEST_DESCRIPTION_3");
-        City convertedCity = new City(3, "TEST_NAME_3", "TEST_DESCRIPTION_3");
-        Mockito.when(mockMapper.fromDto(cityToUpdate)).thenReturn(convertedCity);
         Mockito.when(mockRepository.existsById(Mockito.any(Long.class))).thenReturn(true);
 
         serviceToTest.update(cityToUpdate);

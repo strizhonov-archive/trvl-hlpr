@@ -1,7 +1,6 @@
 server:
   servlet:
     contextPath: /api
-  params: -tcp -tcpAllowOthers -tcpPort 9090
   port: 8080
 
 spring:
