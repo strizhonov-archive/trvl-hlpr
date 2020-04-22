@@ -1,7 +1,6 @@
 package by.strizhonov.app.service;
 
 import by.strizhonov.app.dto.CityDto;
-import by.strizhonov.app.mapper.CityMapper;
 import by.strizhonov.app.model.City;
 import by.strizhonov.app.repository.CityRepository;
 import org.junit.Test;
@@ -25,17 +24,25 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldCallRepositorySave() {
-        CityDto cityToCreate = new CityDto(1, "TEST_NAME", "TEST_DESCRIPTION");
+        CityDto cityToCreate = CityDto.builder()
+                .id(1)
+                .name("TEST_NAME")
+                .description("TEST_DESCRIPTION")
+                .build();
 
         serviceToTest.create(cityToCreate);
-        Mockito.verify(mockRepository, Mockito.atLeast(1)).save(Mockito.any(City.class));
+        Mockito.verify(mockRepository, Mockito.atLeast(1)).saveAndFlush(Mockito.any(City.class));
     }
 
 
     @Test
     public void shouldCallRepositoryGet() {
         Mockito.when(mockRepository.findById(Mockito.any(Long.class)))
-                .thenReturn(Optional.of(new City(2, "TEST_NAME_2", "TEST_DESCRIPTION_2")));
+                .thenReturn(Optional.of(City.builder()
+                        .id(2)
+                        .name("TEST_NAME_2")
+                        .description("TEST_DESCRIPTION_2")
+                        .build()));
 
         serviceToTest.getById(2);
         Mockito.verify(mockRepository, Mockito.atLeast(1)).findById(Mockito.any(Long.class));
@@ -44,7 +51,11 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldCallRepositoryUpdate() {
-        CityDto cityToUpdate = new CityDto(3, "TEST_NAME_3", "TEST_DESCRIPTION_3");
+        CityDto cityToUpdate = CityDto.builder()
+                .id(3)
+                .name("TEST_NAME_3")
+                .description("TEST_DESCRIPTION_3")
+                .build();
         Mockito.when(mockRepository.existsById(Mockito.any(Long.class))).thenReturn(true);
 
         serviceToTest.update(cityToUpdate);
@@ -54,7 +65,11 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldCallRepositoryDelete() {
-        City cityToDelete = new City(4, "TEST_NAME_4", "TEST_DESCRIPTION_4");
+        City cityToDelete = City.builder()
+                .id(4)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_4")
+                .build();
         Mockito.when(mockRepository.findById(Mockito.any(Long.class)))
                 .thenReturn(Optional.of(cityToDelete));
 

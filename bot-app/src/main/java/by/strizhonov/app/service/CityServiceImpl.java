@@ -1,7 +1,7 @@
 package by.strizhonov.app.service;
 
-import by.strizhonov.app.repository.CityRepository;
-import by.strizhonov.app.model.City;
+import by.strizhonov.app.dto.CityDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,14 +11,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @Transactional
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class CityServiceImpl implements CityService {
 
     @Value("${cityNotFound}")
     private String cityNotFoundMessage;
 
 
-    @Autowired
-    private FeignCityManipulationService cityManipulationService;
+    private final FeignCityManipulationService cityManipulationService;
 
 
     @Override
@@ -34,7 +34,7 @@ public class CityServiceImpl implements CityService {
 
     private String getResponseText(final Update update) {
         String cityToSearch = update.getMessage().getText();
-        CityDto foundCity = repository.findByName(cityToSearch);
+        CityDto foundCity = cityManipulationService.findByName(cityToSearch);
 
         return foundCity == null
                 ? String.format(cityNotFoundMessage, cityToSearch)

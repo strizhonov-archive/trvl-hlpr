@@ -6,9 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,11 @@ public class CityMapperTest {
         long id = 1;
         String name = "TEST_NAME_1";
         String description = "TEST_DESCRIPTION_1";
-        City cityToConvert = new City(id, name, description);
+        City cityToConvert = City.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .build();
         CityDto convertedCity = mapper.fromEntity(cityToConvert);
 
         Assert.assertEquals(name, convertedCity.getName());
@@ -39,7 +40,11 @@ public class CityMapperTest {
         long id = 2;
         String name = "TEST_NAME_2";
         String description = "TEST_DESCRIPTION_2";
-        CityDto dtoToTest = new CityDto(id, name, description);
+        CityDto dtoToTest = CityDto.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .build();
         City converted = mapper.fromDto(dtoToTest);
 
         Assert.assertEquals(name, converted.getName());
@@ -55,7 +60,11 @@ public class CityMapperTest {
 
         for (City current : manuallyCreatedCities) {
             boolean containsSameCity = convertedCities
-                    .contains(new CityDto(current.getId(), current.getName(), current.getDescription()));
+                    .contains(CityDto.builder()
+                            .id(current.getId())
+                            .name(current.getName())
+                            .description(current.getDescription())
+                            .build());
             Assert.assertTrue(containsSameCity);
         }
 
@@ -65,21 +74,25 @@ public class CityMapperTest {
     private List<City> createCities() {
         List<City> result = new ArrayList<>();
 
-        long id = 3;
-        String name = "TEST_NAME_3";
-        String description = "TEST_DESCRIPTION_3";
-        result.add(new City(id, name, description));
+        result.add(City.builder()
+                .id(3)
+                .name("TEST_NAME_3")
+                .description("TEST_DESCRIPTION_3")
+                .build());
 
-        id = 4;
-        name = "TEST_NAME_4";
-        description = "TEST_DESCRIPTION_4";
-        result.add(new City(id, name, description));
+        result.add(City.builder()
+                .id(4)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_4")
+                .build());
 
-        id = 5;
-        name = "TEST_NAME_5";
-        description = "TEST_DESCRIPTION_5";
-        result.add(new City(id, name, description));
+        result.add(City.builder()
+                .id(5)
+                .name("TEST_NAME_5")
+                .description("TEST_DESCRIPTION_5")
+                .build());
 
         return result;
     }
+
 }

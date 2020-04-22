@@ -2,6 +2,7 @@ package by.strizhonov.app.controller;
 
 import by.strizhonov.app.exception.UpdateIsNotValidException;
 import by.strizhonov.app.service.CityService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class TravelHelperBot extends TelegramLongPollingBot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TravelHelperBot.class);
@@ -26,8 +28,8 @@ public class TravelHelperBot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String token;
 
-    @Autowired
-    private CityService service;
+
+    private final CityService service;
 
 
     @Override

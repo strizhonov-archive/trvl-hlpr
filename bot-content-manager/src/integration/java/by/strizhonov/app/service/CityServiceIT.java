@@ -23,7 +23,11 @@ public class CityServiceIT {
     @Test
     public void shouldSaveCity() {
         int citiesNumberBeforeSaving = serviceToTest.findAll().size();
-        CityDto cityToSave = new CityDto(0, "TEST_NAME_1", "TEST_DESCRIPTION_1");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_1")
+                .description("TEST_DESCRIPTION_1")
+                .build();
         CityDto savedCity = serviceToTest.create(cityToSave);
         int citiesNumberAfterSaving = serviceToTest.findAll().size();
         Assert.assertEquals(citiesNumberBeforeSaving + 1, citiesNumberAfterSaving);
@@ -33,7 +37,11 @@ public class CityServiceIT {
 
     @Test
     public void shouldGetCity() {
-        CityDto cityToSave = new CityDto(0, "TEST_NAME_2", "TEST_DESCRIPTION_2");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_2")
+                .description("TEST_DESCRIPTION_2")
+                .build();
         CityDto savedCity = serviceToTest.create(cityToSave);
         CityDto retrievedCity = serviceToTest.getById(savedCity.getId());
         Assert.assertNotNull(retrievedCity);
@@ -43,7 +51,11 @@ public class CityServiceIT {
 
     @Test
     public void shouldDeleteCity() {
-        CityDto cityToSave = new CityDto(0, "TEST_NAME_3", "TEST_DESCRIPTION_3");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_3")
+                .description("TEST_DESCRIPTION_3")
+                .build();
         CityDto savedCity = serviceToTest.create(cityToSave);
         int citiesNumberBeforeDeleting = serviceToTest.findAll().size();
         serviceToTest.delete(savedCity.getId());
@@ -54,7 +66,11 @@ public class CityServiceIT {
 
     @Test
     public void shouldUpdateCity() {
-        CityDto cityToSave = new CityDto(0, "TEST_NAME_4", "TEST_DESCRIPTION_4");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_4")
+                .build();
         CityDto savedCity = serviceToTest.create(cityToSave);
         savedCity.setName("UPDATED_TEST_NAME");
         CityDto updatedCity = serviceToTest.update(savedCity);
@@ -64,18 +80,29 @@ public class CityServiceIT {
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenSavingExistingName() {
-        CityDto cityToSave = new CityDto(0, "TEST_NAME_4", "TEST_DESCRIPTION_4");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_4")
+                .build();
         serviceToTest.create(cityToSave);
-        CityDto anotherCityWithTheSameName = new CityDto(0, "TEST_NAME_4", "TEST_DESCRIPTION_5");
+        CityDto anotherCityWithTheSameName = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_5")
+                .build();
         serviceToTest.create(anotherCityWithTheSameName);
     }
 
 
     @Test(expected = RuntimeException.class)
     public void shouldThrowRuntimeExceptionWhenUpdatingWithExistingName() {
-        CityDto cityToSave = new CityDto(1, "TEST_NAME_4", "TEST_DESCRIPTION_4");
+        CityDto cityToSave = CityDto.builder()
+                .id(0)
+                .name("TEST_NAME_4")
+                .description("TEST_DESCRIPTION_4")
+                .build();
         serviceToTest.create(cityToSave);
-        CityDto anotherCityToSave = new CityDto(2, "TEST_NAME_5", "TEST_DESCRIPTION_5");
         CityDto cityToUpdate = serviceToTest.getById(2);
         cityToUpdate.setName("TEST_NAME_4");
         serviceToTest.update(cityToUpdate);

@@ -22,7 +22,11 @@ public class CityControllerTest {
 
     @Test
     public void shouldCallServiceCreate() {
-        CityDto cityToCreate = new CityDto(1, "TEST_NAME_1", "TEST_DESCRIPTION_1");
+        CityDto cityToCreate = CityDto.builder()
+                .id(1)
+                .name("TEST_NAME_1")
+                .description("TEST_DESCRIPTION_1")
+                .build();
 
         controllerToTest.save(cityToCreate);
         Mockito.verify(mockService, Mockito.atLeast(1)).create(Mockito.any(CityDto.class));
@@ -32,7 +36,11 @@ public class CityControllerTest {
     @Test
     public void shouldCallServiceGet() {
         Mockito.when(mockService.getById(Mockito.any(Long.class)))
-                .thenReturn(new CityDto(2, "TEST_NAME_2", "TEST_DESCRIPTION_2"));
+                .thenReturn(CityDto.builder()
+                        .id(2)
+                        .name("TEST_NAME_2")
+                        .description("TEST_DESCRIPTION_2")
+                        .build());
 
         controllerToTest.get(2);
         Mockito.verify(mockService, Mockito.atLeast(1)).getById(Mockito.any(Long.class));
@@ -41,7 +49,11 @@ public class CityControllerTest {
 
     @Test
     public void shouldCallServiceUpdate() {
-        CityDto cityToUpdate = new CityDto(3, "TEST_NAME_3", "TEST_DESCRIPTION_3");
+        CityDto cityToUpdate = CityDto.builder()
+                .id(3)
+                .name("TEST_NAME_3")
+                .description("TEST_DESCRIPTION_3")
+                .build();
         Mockito.when(mockService.update(Mockito.any(CityDto.class))).thenReturn(cityToUpdate);
 
         controllerToTest.update(cityToUpdate);

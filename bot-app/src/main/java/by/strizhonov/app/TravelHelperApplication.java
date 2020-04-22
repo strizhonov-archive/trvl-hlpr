@@ -13,7 +13,7 @@ public class TravelHelperApplication {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
-        SpringApplication.run(TravelHelperApplication.class);
+        SpringApplication.run(TravelHelperApplication.class, args);
     }
 
 }

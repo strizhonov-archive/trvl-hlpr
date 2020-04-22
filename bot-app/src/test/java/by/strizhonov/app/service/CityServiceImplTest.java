@@ -1,7 +1,6 @@
 package by.strizhonov.app.service;
 
-import by.strizhonov.app.model.City;
-import by.strizhonov.app.repository.CityRepository;
+import by.strizhonov.app.dto.CityDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +19,7 @@ import java.lang.reflect.Field;
 public class CityServiceImplTest {
 
     @Mock
-    private CityRepository mockRepository;
+    private FeignCityManipulationService mockFeignService;
 
 
     @InjectMocks
@@ -29,7 +28,7 @@ public class CityServiceImplTest {
 
     @Test
     public void shouldGetNonNullMessageToTheSameChat() throws NoSuchFieldException, IllegalAccessException {
-        Mockito.when(mockRepository.findByName(Mockito.anyString())).thenReturn(validCity());
+        Mockito.when(mockFeignService.findByName(Mockito.anyString())).thenReturn(validCity());
 
         Update update = createTestUpdateItem(1, "TEST_NAME_1");
         SendMessage retrievedMessage = serviceToTest.getCityDescriptionMessage(update);
@@ -45,8 +44,8 @@ public class CityServiceImplTest {
     }
 
 
-    private City validCity() {
-        return new City(2, "TEST_NAME_2", "TEST_DESCRIPTION_2");
+    private CityDto validCity() {
+        return new CityDto(2, "TEST_NAME_2", "TEST_DESCRIPTION_2");
     }
 
 

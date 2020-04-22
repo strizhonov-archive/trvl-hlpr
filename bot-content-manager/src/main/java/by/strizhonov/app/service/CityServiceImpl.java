@@ -24,6 +24,7 @@ public class CityServiceImpl implements CityService {
     private static final String NOT_FOUND_MESSAGE_FOR_LOGGER = "City with {} id is not found.";
     private static final String ALREADY_EXISTS_MESSAGE_FOR_LOGGER = "City with [{}] name does already exist.";
     private static final String NOT_FOUND_MESSAGE_FOR_EXCEPTION = "City with [%d] id is not found.";
+    private static final String NOT_FOUND_BY_NAME_MESSAGE_FOR_EXCEPTION = "City with [%s] id is not found.";
     private static final String ALREADY_EXISTS_MESSAGE_FOR_EXCEPTION = "City with [%s] name does already exist.";
 
     private final CityMapper mapper = CityMapper.INSTANCE;
@@ -60,7 +61,7 @@ public class CityServiceImpl implements CityService {
     public CityDto update(final CityDto dtoToUpdate) {
         checkForUpdateValidity(dtoToUpdate);
 
-        City updatedCity = repository.save(mapper.fromDto(dtoToUpdate));
+        City updatedCity = repository.saveAndFlush(mapper.fromDto(dtoToUpdate));
         return mapper.fromEntity(updatedCity);
     }
 
@@ -83,16 +84,27 @@ public class CityServiceImpl implements CityService {
         return mapper.allFromEntities(allCities);
     }
 
+    @Override
+    public CityDto getByName(final String name) {
+        City foundCity = repository.findByName(name)
+                .orElseThrow(() -> {
+                    LOGGER.error(NOT_FOUND_MESSAGE_FOR_LOGGER, name);
+                    return new EntityNotFoundException(String.format(NOT_FOUND_BY_NAME_MESSAGE_FOR_EXCEPTION, name));
+                });
+
+        return mapper.fromEntity(foundCity);
+    }
+
 
     private boolean nameIsAvailable(final String cityName) {
-        return repository.findByName(cityName) == null;
+        return !repository.findByName(cityName).isPresent();
     }
 
 
     private CityDto performSaving(final CityDto dtoToSave) {
         ignoreId(dtoToSave);
         City entityToSave = mapper.fromDto(dtoToSave);
-        City savedCity = repository.save(entityToSave);
+        City savedCity = repository.saveAndFlush(entityToSave);
         return mapper.fromEntity(savedCity);
     }
 

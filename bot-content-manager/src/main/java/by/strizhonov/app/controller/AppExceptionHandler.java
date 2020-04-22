@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
@@ -74,6 +73,23 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorInfo> handleHttpMessageNotReadableException(final HttpMessageNotReadableException e, final HttpServletRequest request) {
+        LOGGER.error(COMMON_MESSAGE, e);
+
+        ErrorInfo responseInfo = ErrorInfo.builder()
+                .timestamp(LocalDateTime.now())
+                .status(400)
+                .error(e.getClass().getSimpleName())
+                .message(e.getLocalizedMessage())
+                .path(request.getRequestURL().toString())
+                .build();
+
+        return new ResponseEntity<>(responseInfo, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorInfo>
+    handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e,
+                                                 final HttpServletRequest request) {
         LOGGER.error(COMMON_MESSAGE, e);
 
         ErrorInfo responseInfo = ErrorInfo.builder()

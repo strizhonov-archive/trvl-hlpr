@@ -16,4 +16,5 @@ public interface CityService {
 
     List<CityDto> findAll();
 
+    CityDto getByName(String name);
 }
