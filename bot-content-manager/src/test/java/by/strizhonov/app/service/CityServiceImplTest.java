@@ -31,7 +31,7 @@ public class CityServiceImplTest {
                 .build();
 
         serviceToTest.create(cityToCreate);
-        Mockito.verify(mockRepository, Mockito.atLeast(1)).saveAndFlush(Mockito.any(City.class));
+        Mockito.verify(mockRepository, Mockito.atLeast(1)).save(Mockito.any(City.class));
     }
 
 
@@ -59,7 +59,7 @@ public class CityServiceImplTest {
         Mockito.when(mockRepository.existsById(Mockito.any(Long.class))).thenReturn(true);
 
         serviceToTest.update(cityToUpdate);
-        Mockito.verify(mockRepository, Mockito.atLeast(1)).save(Mockito.any(City.class));
+        Mockito.verify(mockRepository, Mockito.atLeast(1)).saveAndFlush(Mockito.any(City.class));
     }
 
 

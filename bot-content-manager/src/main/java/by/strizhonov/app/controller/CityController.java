@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,20 +25,23 @@ public class CityController {
     private final CityService service;
 
 
+    @Valid
     @PostMapping
-    public CityDto save(@RequestBody final CityDto dtoToSave) {
+    public CityDto save(@Valid @RequestBody final CityDto dtoToSave) {
         return service.create(Objects.requireNonNull(dtoToSave));
     }
 
 
+    @Valid
     @GetMapping(value = "/{id}")
     public CityDto get(@PathVariable("id") final long dtoToGetId) {
         return service.getById(dtoToGetId);
     }
 
 
+    @Valid
     @PutMapping
-    public CityDto update(@RequestBody final CityDto dtoToUpdate) {
+    public CityDto update(@Valid @RequestBody final CityDto dtoToUpdate) {
         return service.update(Objects.requireNonNull(dtoToUpdate));
     }
 
@@ -48,12 +52,14 @@ public class CityController {
     }
 
 
+    @Valid
     @GetMapping
     public List<CityDto> findAll() {
         return service.findAll();
     }
 
 
+    @Valid
     @GetMapping(value = "/name/{name}")
     public CityDto getByName(@PathVariable("name") final String name) {
         return service.getByName(name);

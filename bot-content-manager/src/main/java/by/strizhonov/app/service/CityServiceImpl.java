@@ -60,9 +60,9 @@ public class CityServiceImpl implements CityService {
     @Override
     public CityDto update(final CityDto dtoToUpdate) {
         checkForUpdateValidity(dtoToUpdate);
-
-        City updatedCity = repository.saveAndFlush(mapper.fromDto(dtoToUpdate));
-        return mapper.fromEntity(updatedCity);
+        City toUpdate = mapper.fromDto(dtoToUpdate);
+        repository.saveAndFlush(toUpdate);
+        return mapper.fromEntity(toUpdate);
     }
 
 
@@ -104,8 +104,8 @@ public class CityServiceImpl implements CityService {
     private CityDto performSaving(final CityDto dtoToSave) {
         ignoreId(dtoToSave);
         City entityToSave = mapper.fromDto(dtoToSave);
-        City savedCity = repository.saveAndFlush(entityToSave);
-        return mapper.fromEntity(savedCity);
+        repository.save(entityToSave);
+        return mapper.fromEntity(entityToSave);
     }
 
 
